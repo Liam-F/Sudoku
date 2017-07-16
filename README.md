@@ -1,6 +1,6 @@
 Diagonal Sudoku Solver
 ===============================
-In this project, I will write code to implement two extensions to already implemented sudoku solver. The first one will be to implement the technique called "naked twins". The second one will be to modify the existing code to solve a diagonal sudoku. To complete this project I will use the tools mostly constrain propagation and depth-first search.
+In this project, I will write code to implement two extensions to already implemented sudoku solver. The first one will be to apply the technique called "naked twins." The second one will be to modify the existing code to solve a diagonal sudoku. To complete this project, I will use the tools mostly constraint propagation and depth-first search.
 
 
 ### Questions:
