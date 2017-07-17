@@ -9,10 +9,10 @@ Created on 07/16/2017
 """
 
 
-
 '''
 Begin help functions and variables
 '''
+
 
 def cross(A, B):
     '''
@@ -23,6 +23,7 @@ def cross(A, B):
 rows = 'ABCDEFGHI'
 cols = '123456789'
 
+
 def cross(a, b):
     return [s+t for s in a for t in b]
 
@@ -30,17 +31,18 @@ boxes = cross(rows, cols)
 
 row_units = [cross(r, cols) for r in rows]
 column_units = [cross(rows, c) for c in cols]
-square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI')
-                for cs in ('123','456','789')]
+square_units = [cross(rs, cs) for rs in ('ABC', 'DEF', 'GHI')
+                for cs in ('123', '456', '789')]
 unitlist = row_units + column_units + square_units
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
-peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
+peers = dict((s, set(sum(units[s], []))-set([s])) for s in boxes)
 
 '''
 end help functions and variables
 '''
 
 assignments = []
+
 
 def assign_value(values, box, value):
     '''
@@ -56,6 +58,7 @@ def assign_value(values, box, value):
     if len(value) == 1:
         assignments.append(values.copy())
     return values
+
 
 def naked_twins(values):
     '''
@@ -90,6 +93,7 @@ def grid_values(grid):
     assert len(chars) == 81
     return dict(zip(boxes, chars))
 
+
 def display(values):
     '''
     Display the values as a 2-D grid.
@@ -101,8 +105,10 @@ def display(values):
     for r in rows:
         print(''.join(values[r+c].center(width)+('|' if c in '36' else '')
                       for c in cols))
-        if r in 'CF': print(line)
+        if r in 'CF':
+            print(line)
     return
+
 
 def eliminate(values):
     '''
@@ -116,8 +122,9 @@ def eliminate(values):
     for box in solved_values:
         digit = values[box]
         for peer in peers[box]:
-            values[peer] = values[peer].replace(digit,'')
+            values[peer] = values[peer].replace(digit, '')
     return values
+
 
 def only_choice(values):
     '''
@@ -133,6 +140,7 @@ def only_choice(values):
             if len(dplaces) == 1:
                 values[dplaces[0]] = digit
     return values
+
 
 def reduce_puzzle(values):
     '''
@@ -158,6 +166,7 @@ def reduce_puzzle(values):
             return False
     return values
 
+
 def search(values):
     '''
     Using depth-first search and propagation, try all possible values.
@@ -167,11 +176,11 @@ def search(values):
     # First, reduce the puzzle using the previous function
     values = reduce_puzzle(values)
     if values is False:
-        return False ## Failed earlier
+        return False  # Failed earlier
     if all(len(values[s]) == 1 for s in boxes):
-        return values ## Solved!
+        return values  # Solved!
     # Choose one of the unfilled squares with the fewest possibilities
-    n,s = min((len(values[s]), s) for s in boxes if len(values[s]) > 1)
+    n, s = min((len(values[s]), s) for s in boxes if len(values[s]) > 1)
     # Now use recurrence to solve each one of the resulting sudokus, and
     for value in values[s]:
         new_sudoku = values.copy()
@@ -179,6 +188,7 @@ def search(values):
         attempt = search(new_sudoku)
         if attempt:
             return attempt
+
 
 def solve(grid):
     '''
