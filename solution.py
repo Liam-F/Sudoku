@@ -14,7 +14,7 @@ Begin help functions and variables
 '''
 
 
-def cross(A, B):
+def cross(a, b):
     '''
     Cross product of elements in A and elements in B.
     '''
@@ -23,9 +23,6 @@ def cross(A, B):
 rows = 'ABCDEFGHI'
 cols = '123456789'
 
-
-def cross(a, b):
-    return [s+t for s in a for t in b]
 
 boxes = cross(rows, cols)
 
@@ -67,10 +64,28 @@ def naked_twins(values):
     :param values: dict. a dict of the form {'box_name': '123456789', ...}
     :return: the values dictionary with the naked twins eliminated from peers.
     '''
-
+    # constrain the search to the boxes than can be "twins"
+    double_values = [box for box in values.keys() if len(values[box]) == 2]
     # Find all instances of naked twins
-    # Eliminate the naked twins as possibilities for their peers
-    pass
+    for box in double_values:
+        digit = values[box]
+        for unit in units[box]:
+            for peer in unit:
+                if peer == box:
+                    continue
+                # check if the boxes have the same value
+                if digit == values[peer]:
+                    # the values are locked in those two boxes
+                    for i_aux in digit:
+                        # Eliminate the naked twins as possibilities for peers
+                        # in the same unit
+                        for peer2 in unit:
+                            if (values[peer2] == digit):
+                                continue
+                            if (len(values[peer2]) < 2):
+                                continue
+                            values[peer2] = values[peer2].replace(i_aux, '')
+    return values
 
 
 def grid_values(grid):
