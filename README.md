@@ -9,7 +9,7 @@ A: *We use constraint propagation in some steps. First, we look for naked twins 
 
 ###### Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: *We have used constraint propagation to compose several strategies when solving sudoku problems, as the only choice. We also have used when we have walked through each peer or unit related to each box checking these strategies. So, apart from those steps, we just have to add the diagonals as units to solve diagonal sudoku.*
+A: *We have used constraint propagation to compose several strategies when solving sudoku problems, as the only choice. We also have used when we have walked through each peer or unit related to each box checking these strategies. So, apart from those steps, we just have to add the diagonals as units as an additional constraint to solve diagonal sudoku.*
 
 ### Install
 This project requires **Python 3** and the following Python libraries installed:
