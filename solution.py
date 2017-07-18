@@ -30,9 +30,17 @@ row_units = [cross(r, cols) for r in rows]
 column_units = [cross(rows, c) for c in cols]
 square_units = [cross(rs, cs) for rs in ('ABC', 'DEF', 'GHI')
                 for cs in ('123', '456', '789')]
-unitlist = row_units + column_units + square_units
+
+# #### DIAGONALS ###
+diag_units = [[a+b for a, b in zip(rows, cols)]]
+diag_units += [[a+b for a, b in zip(rows, cols[::-1])]]
+# ##################
+
+# add diagonal to unitlist
+unitlist = row_units + column_units + square_units + diag_units
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s], []))-set([s])) for s in boxes)
+
 
 '''
 end help functions and variables
@@ -84,7 +92,9 @@ def naked_twins(values):
                                 continue
                             if (len(values[peer2]) < 2):
                                 continue
-                            values[peer2] = values[peer2].replace(i_aux, '')
+                            s_val_aux = values[peer2].replace(i_aux, '')
+                            assign_value(values, peer2, s_val_aux)
+                            # values[peer2] = values[peer2].replace(i_aux, '')
     return values
 
 
@@ -137,7 +147,8 @@ def eliminate(values):
     for box in solved_values:
         digit = values[box]
         for peer in peers[box]:
-            values[peer] = values[peer].replace(digit, '')
+            assign_value(values, peer, values[peer].replace(digit, ''))
+            # values[peer] = values[peer].replace(digit, '')
     return values
 
 
@@ -153,7 +164,8 @@ def only_choice(values):
         for digit in '123456789':
             dplaces = [box for box in unit if digit in values[box]]
             if len(dplaces) == 1:
-                values[dplaces[0]] = digit
+                assign_value(values, dplaces[0], digit)
+                # values[dplaces[0]] = digit
     return values
 
 
